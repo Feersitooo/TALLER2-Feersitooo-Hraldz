@@ -1,22 +1,23 @@
-package Main;
+package Taller;
 
 import java.util.Scanner;
-
-import Clases.Habitads;
-import Clases.Pokemon;
 
 public class app {
 	public static void main(String[] args) {
 		
+		String rutaRegistro = "src/Registros.txt";
+		Registro registro = new Registro();
+		Pokemon pokemon = new Pokemon();
+		Habitads habitad = new Habitads("src/Habitats.txt");
+		
 		Scanner sc = new Scanner(System.in);
 		int opcion1 = 0;
-		do{
-			
-			System.out.println("1) Continuar.");
-			System.out.println("2) Nueva Partida.");
-			System.out.println("3) Salir.");
-			opcion1 = sc.nextInt();
-		}while (opcion1 < 1 || opcion1 > 3);	
+		do{	
+		System.out.println("1) Continuar.");
+		System.out.println("2) Nueva Partida.");
+		System.out.println("3) Salir.");
+		opcion1 = sc.nextInt();
+		
 		
 		switch (opcion1) {
 		
@@ -25,12 +26,19 @@ public class app {
 			System.out.print("Ingrese su apodo de jugador :");
 			String apodoNuevo = sc.nextLine();
 			System.out.println(" ");
-			System.out.println("Bienvenido "+ apodoNuevo);
-			opcion1 = 1;
+		
+			registro.editarNombre(apodoNuevo, rutaRegistro);
+			
 			
 		case 1 :
 			int opcion2 = 0;
+			if ((registro.mostrarNombre(rutaRegistro)) == null) {
+				System.out.println("Debes crear una nueva partida....");
+				opcion1 = 0;
+				break;
+			}
 			do {
+				System.out.println("Bienvenido "+ registro.mostrarNombre(rutaRegistro));
 				System.out.println(" ");
 				System.out.println("1) Revisar equipo.");
 				System.out.println("2) Salir a capturar.");
@@ -44,8 +52,6 @@ public class app {
 				
 				opcion2 = sc.nextInt();
 				System.out.println(" ");
-				
-			}while(opcion2 < 1 || opcion2 > 8);
 			
 			switch (opcion2) {
 			
@@ -53,11 +59,9 @@ public class app {
 				//revisar equipo
 			case 2:
 				//capturar
-				
 				//mostrar habitads disponibles
 				System.out.println("Zonas disponibles:");
 				System.out.println(" ");
-				Habitads habitad = new Habitads("MainyyClases/Habitats.txt");
 				int i = 1;
 				for ( String zona : habitad.getHabitads() ) {
 					System.out.println(i + ") " + zona);
@@ -65,8 +69,7 @@ public class app {
 				}
 				// el numeroHabitad es el indice -1 de la lista de Habitads
 				int numeroHabitad = 0;
-				do {
-				
+				do {	
 					numeroHabitad = sc.nextInt();
 					
 					if (numeroHabitad < 1 || numeroHabitad > 6) {
@@ -84,6 +87,33 @@ public class app {
 				System.out.println("1) Capturar");
 				System.out.println("2) Huir");
 				
+				int opcionCapturar = sc.nextInt();
+				
+				switch(opcionCapturar) {
+				
+				case 1:
+					//agregar al pokemon al equipo
+					System.out.println(a.getNombre() + " Capturado con exito!!");
+					System.out.println(" ");
+					pokemon.agregarPokemon(a);
+					System.out.println(" ");
+					//Agregar pokemons que se capturan a una lista que contenga los que tiene el usuario
+					opcion2 = 0;
+					break;
+					
+				case 2:
+					System.out.println("Has huido....");
+					opcion2 = 0;
+					break;
+					
+				default:
+					System.out.println("Opcion invalida");
+				
+				
+				}
+			
+				
+				
 			case 3:
 				//cambiar pokemon
 			case 4:
@@ -97,10 +127,10 @@ public class app {
 			case 8:
 				//guardar y salir
 				
-				opcion2 = 1;
+				opcion2 = 0;
 				break;
 			}								
-			break;
+			}while(opcion2 == 0);	
 			
 			
 			
@@ -115,9 +145,9 @@ public class app {
 		default:
 			System.out.println("Opcion invalida....");
 			System.out.println(" ");
-
-		}
 			
+		}
+		}while (opcion1 == 0);		
 			
 			
 			
