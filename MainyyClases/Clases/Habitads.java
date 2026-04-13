@@ -1,5 +1,4 @@
-
-package Clases;
+package Taller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
