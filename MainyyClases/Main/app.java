@@ -7,9 +7,12 @@ public class app {
 		
 		String rutaRegistro = "src/Registros.txt";
 		Registro registro = new Registro();
-		Pokemon pokemon = new Pokemon();
-		Habitads habitad = new Habitads("src/Habitats.txt");
 		
+		PokedexAdmin admin = new PokedexAdmin("src/Habitats.txt");
+		
+		admin.crearListaPokemons();
+		
+		boolean cargado = false;
 		Scanner sc = new Scanner(System.in);
 		int opcion1 = 0;
 		do{	
@@ -22,12 +25,14 @@ public class app {
 		switch (opcion1) {
 		
 		case 2:
+			registro.limpiarArchivo();
 			sc.nextLine();
 			System.out.print("Ingrese su apodo de jugador :");
 			String apodoNuevo = sc.nextLine();
+			System.out.println("Bienvenido" + apodoNuevo);
 			System.out.println(" ");
 		
-			registro.editarNombre(apodoNuevo, rutaRegistro);
+			registro.editarNombre(apodoNuevo);
 			
 			
 		case 1 :
@@ -37,8 +42,16 @@ public class app {
 				opcion1 = 0;
 				break;
 			}
+			
+			if ( !cargado ) {
+				registro.cargarArchivo(admin);
+				cargado = true;
+			}
+			
+			
 			do {
-				System.out.println("Bienvenido "+ registro.mostrarNombre(rutaRegistro));
+				
+				System.out.println( registro.mostrarNombre(rutaRegistro) + ", que deseas hacer ?");
 				System.out.println(" ");
 				System.out.println("1) Revisar equipo.");
 				System.out.println("2) Salir a capturar.");
@@ -57,13 +70,15 @@ public class app {
 			
 			case 1:
 				//revisar equipo
+				admin.mostrarInventario();						
+				opcion2 = 0;
+				break;
 			case 2:
-				//capturar
-				//mostrar habitads disponibles
 				System.out.println("Zonas disponibles:");
 				System.out.println(" ");
+				
 				int i = 1;
-				for ( String zona : habitad.getHabitads() ) {
+				for ( String zona : admin.getHabitads() ) {
 					System.out.println(i + ") " + zona);
 					i++;
 				}
@@ -76,9 +91,9 @@ public class app {
 						System.out.println("numero Invalido");
 					}
 				}while(numeroHabitad < 1 || numeroHabitad > 6);
-				String habitadEscogida = habitad.getHabitads().get(numeroHabitad - 1);
+				String habitadEscogida = admin.getHabitads().get(numeroHabitad - 1);
 				
-				Pokemon a = habitad.filtrarPorHabitad(habitadEscogida);
+				Pokemon a = admin.randomPokemon(habitadEscogida);
 				
 				System.out.println("Oh!! Ha aparecido un increible " + a.getNombre() + "!!");
 				System.out.println("");
@@ -95,9 +110,11 @@ public class app {
 					//agregar al pokemon al equipo
 					System.out.println(a.getNombre() + " Capturado con exito!!");
 					System.out.println(" ");
-					pokemon.agregarPokemon(a);
+					System.out.println(a.getNombre() + " ha sido agregado a tu equipo!");	
+					admin.agregarInventario(a);
+					registro.agregarPokemonTxt(a.getNombre());
 					System.out.println(" ");
-					//Agregar pokemons que se capturan a una lista que contenga los que tiene el usuario
+					
 					opcion2 = 0;
 					break;
 					
@@ -108,7 +125,8 @@ public class app {
 					
 				default:
 					System.out.println("Opcion invalida");
-				
+					opcion2 = 0;
+					break;
 				
 				}
 			
