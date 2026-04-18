@@ -1,6 +1,5 @@
 package Taller;
 
-import java.util.ArrayList;
 
 public class Pokemon {
 	
@@ -13,32 +12,26 @@ public class Pokemon {
 	private int ataqueEspecial;
 	private int defensaEspecial;
 	private int velocidad;
-	private String tipo;
-	
-	private ArrayList<Pokemon> pokemonsUsuario = new ArrayList<>();
+	private String tipo;	
 
-
-	public Pokemon() {
-			
+	public Pokemon() {			
 	}
-	
-	public Pokemon(String nombre, String habitad) {
+
+	public Pokemon(String nombre, String habitad, double porcAparicion, int vida, int ataque, int defensa,
+			int ataqueEspecial, int defensaEspecial, int velocidad, String tipo) {
 		super();
 		this.nombre = nombre;
 		this.habitad = habitad;
-	}
-	
-	// agregar pokemon encontrado a una lista de los pokemons
-	public ArrayList<Pokemon> getPokemonsUsuario() {
-		return pokemonsUsuario;
+		this.porcAparicion = porcAparicion;
+		this.vida = vida;
+		this.ataque = ataque;
+		this.defensa = defensa;
+		this.ataqueEspecial = ataqueEspecial;
+		this.defensaEspecial = defensaEspecial;
+		this.velocidad = velocidad;
+		this.tipo = tipo;
 	}
 
-	public void agregarPokemon(Pokemon a) {
-		pokemonsUsuario.add(a);
-		System.out.println(a.getNombre() + " ha sido agregado a tu equipo!");
-	}
-	
-	
 
 	public String getNombre() {
 		return nombre;
@@ -78,10 +71,6 @@ public class Pokemon {
 
 	public String getTipo() {
 		return tipo;
-	}
-
-	
-	
-	
+	}	
 
 }
