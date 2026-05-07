@@ -1,8 +1,10 @@
 package Taller;
 
 import java.util.Scanner;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class app {
 	public static ArrayList<String> habitads = new ArrayList<>();
 	public static ArrayList<Pokemon> pFiltrados = new ArrayList<>();
 	public static ArrayList<Pokemon> pokemonsUsuario = new ArrayList<>();
-	
+	public static ArrayList<Gimnasio> gimnasios = new ArrayList<>();
 	
 	public static void cargarArchivoVacio() {
 		
@@ -127,18 +129,13 @@ public class app {
 				}else {
 					escritor.write(registros.get(i) + ";");
 					escritor.newLine();
-				}
-					
-					
-				
-					
+				}		
 			}
 			escritor.close();
 		}catch (IOException e) {
 			
 		}	
 	}
-	
 	
 	public static void curarPokemons() {
 		for (int i = 0; i < registros.size(); i++) {
@@ -151,6 +148,136 @@ public class app {
 		}	
 	}
 	
+	public static void cargarGimnasios(String ruta) {
+		//mostrar los gimnasios
+		
+		try (Scanner lector3 = new Scanner(new File(ruta))){
+			
+			while(lector3.hasNextLine()) {
+				String linea = lector3.nextLine();
+				String[] partes = linea.split(";");
+				int id = Integer.parseInt(partes[0]);
+				String lider = partes[1];
+				String estado = partes[2];
+				int cantPokemons = Integer.parseInt(partes[3]);
+				ArrayList<Pokemon> tempPokemon = new ArrayList<>();
+				for (int i = 4; i < cantPokemons + 4; i++) {
+					
+					for (Pokemon b : pokemons) {
+						if(partes[i].equals(b.getNombre())) {
+							tempPokemon.add(b);
+							break;
+						}						
+					}						
+				}
+				
+				Gimnasio gym = new Gimnasio(id,lider,estado,cantPokemons,tempPokemon);
+				gimnasios.add(gym);
+				
+			}
+		}catch(IOException e) {
+			
+		}
+	}
+	
+	public static void mostrarGimnasios() {
+		int i = 1;
+		for(Gimnasio g : gimnasios) {
+			System.out.println(i + ") " + g.getLider() + "  - "  + g.getEstado());
+			i++;
+		}
+		System.out.println(i + ") Volver al menu" );
+		System.out.println();
+	}
+	
+	public static void salirCapturar() {
+		Scanner sc = new Scanner(System.in);
+		int opcion2;
+		System.out.println("Zonas disponibles:");
+		System.out.println(" ");
+		
+		int i = 1;
+		for ( String zona : habitads ) {
+			System.out.println(i + ") " + zona);
+			i++;
+		}
+		
+		int numeroHabitad = 0;
+		do {	
+			numeroHabitad = sc.nextInt();
+			
+			if (numeroHabitad < 1 || numeroHabitad > 6) {
+				System.out.println("numero Invalido");
+			}
+		}while(numeroHabitad < 1 || numeroHabitad > 6);
+		String habitadEscogida = habitads.get(numeroHabitad - 1);
+		
+		Pokemon a = randomPokemon(habitadEscogida);
+		
+		System.out.println("Oh!! Ha aparecido un increible " + a.getNombre() + "!!");
+		System.out.println("");
+		System.out.println("Que deseas hacer?");
+		System.out.println("");
+		System.out.println("1) Capturar");
+		System.out.println("2) Huir");
+		
+		int opcionCapturar = sc.nextInt();
+		
+		switch(opcionCapturar) {
+		
+		case 1:
+			//agregar al pokemon al equipo
+			registros.add(a.getNombre() + ";Vivo");
+			agregarInventario(a);
+			System.out.println(a.getNombre() + " Capturado con exito!!");
+			System.out.println(" ");
+			System.out.println(a.getNombre() + " ha sido agregado a tu equipo!");	
+			System.out.println(" ");
+			
+			opcion2 = 0;
+			break;
+			
+		case 2:
+			System.out.println("Has huido....");
+			opcion2 = 0;
+			break;
+			
+		default:
+			System.out.println("Opcion invalida");
+			opcion2 = 0;
+			break;
+		
+		}
+	}
+	
+	
+	public void retarGimnasio(int idGym) {
+		// preguntar desde el primer gym si ha sido derrotado hasta llegar al que se quiere desafiar
+		
+		for (int i = 0; i <= idGym; i++) {
+			if ( gimnasios.get(i).getEstado() == "Sin derrotar");
+				System.out.println("Calmado Entrenador!!! No puedes retar a "+ gimnasios.get(i).getLider() +  " sin haber derrotado a los lideres anteriores!!");
+				
+		}
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -159,10 +286,10 @@ public class app {
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
 	
 		String rutaRegistro = "src/Registros.txt";
 		String rutaHabitads = "src/Habitats.txt";
+		String rutaGimnasios = "src/Gimnasios.txt";
 		
 		crearListaPokemons();
 		cargarArchivoVacio();
@@ -223,69 +350,20 @@ public class app {
 					opcion2 = 0;
 					break;
 				case 2:
-					System.out.println("Zonas disponibles:");
-					System.out.println(" ");
-					
-					int i = 1;
-					for ( String zona : habitads ) {
-						System.out.println(i + ") " + zona);
-						i++;
-					}
-					
-					int numeroHabitad = 0;
-					do {	
-						numeroHabitad = sc.nextInt();
-						
-						if (numeroHabitad < 1 || numeroHabitad > 6) {
-							System.out.println("numero Invalido");
-						}
-					}while(numeroHabitad < 1 || numeroHabitad > 6);
-					String habitadEscogida = habitads.get(numeroHabitad - 1);
-					
-					Pokemon a = randomPokemon(habitadEscogida);
-					
-					System.out.println("Oh!! Ha aparecido un increible " + a.getNombre() + "!!");
-					System.out.println("");
-					System.out.println("Que deseas hacer?");
-					System.out.println("");
-					System.out.println("1) Capturar");
-					System.out.println("2) Huir");
-					
-					int opcionCapturar = sc.nextInt();
-					
-					switch(opcionCapturar) {
-					
-					case 1:
-						//agregar al pokemon al equipo
-						registros.add(a.getNombre() + ";Vivo");
-						agregarInventario(a);
-						System.out.println(a.getNombre() + " Capturado con exito!!");
-						System.out.println(" ");
-						System.out.println(a.getNombre() + " ha sido agregado a tu equipo!");	
-						System.out.println(" ");
-						
-						opcion2 = 0;
-						break;
-						
-					case 2:
-						System.out.println("Has huido....");
-						opcion2 = 0;
-						break;
-						
-					default:
-						System.out.println("Opcion invalida");
-						opcion2 = 0;
-						break;
-					
-					}
+					salirCapturar();
+					opcion2 = 0;
 				
-					
+					break;
 				case 3:
 					System.out.println("1) Cambiar Pokemon");
 					System.out.println();
 					break;
 					//cambiar pokemon
 				case 4:
+					cargarGimnasios(rutaGimnasios);
+					mostrarGimnasios();
+					opcion2 = 0;
+					break;
 					//retar un gimnasio
 				case 5:
 					//desafiar alto mando
