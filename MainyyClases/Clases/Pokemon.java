@@ -1,8 +1,7 @@
 package Taller;
 
-
 public class Pokemon {
-	
+
 	private String nombre;
 	private String habitad;
 	private double porcAparicion;
@@ -12,9 +11,9 @@ public class Pokemon {
 	private int ataqueEspecial;
 	private int defensaEspecial;
 	private int velocidad;
-	private String tipo;	
+	private String tipo;
 
-	public Pokemon() {			
+	public Pokemon() {
 	}
 
 	public Pokemon(String nombre, String habitad, double porcAparicion, int vida, int ataque, int defensa,
@@ -32,7 +31,6 @@ public class Pokemon {
 		this.tipo = tipo;
 	}
 
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -40,7 +38,7 @@ public class Pokemon {
 	public String getHabitad() {
 		return habitad;
 	}
-	
+
 	public double getPorcAparicion() {
 		return porcAparicion;
 	}
@@ -71,6 +69,11 @@ public class Pokemon {
 
 	public String getTipo() {
 		return tipo;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Pokemon [nombre=" + nombre + "]";
+	}
 
 }
