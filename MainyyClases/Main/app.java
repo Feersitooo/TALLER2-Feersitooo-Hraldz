@@ -141,6 +141,34 @@ public class app {
 		}	
 	}
 	
+	public static void cambiarEquipo() {
+		Scanner sc1 = new Scanner(System.in);
+		System.out.println("Que pokemon deseas mover ?");
+		mostrarInventario();
+		int mover = sc1.nextInt();
+		while (mover > -1 && mover <= pokemonsUsuario.size()) {
+			mostrarInventario();
+			System.out.println("por cual pokemon deseas reemplazarlo ? :");
+			int mover2 = sc1.nextInt();
+			while (mover2 > -1 && mover2 <= pokemonsUsuario.size()) {
+				
+				Pokemon temp = pokemonsUsuario.get(mover-1);
+				pokemonsUsuario.set(mover-1, pokemonsUsuario.get(mover2-1));
+				pokemonsUsuario.set(mover2-1, temp);
+					
+				mover = -1;
+				mover2 = -1;
+				System.out.println("Movimiento realizado con exito..");
+				System.out.println("Equipo Actual :");
+				mostrarInventario();
+				
+			}
+		}
+		
+	
+	}
+	
+	
 	public static void curarPokemons() {
 		for (int i = 0; i < registros.size(); i++) {
 			String linea = registros.get(i);
@@ -267,7 +295,8 @@ public class app {
 			if( gimnasios.get(i).getEstado() == gimnasios.get(entrenadorR).getEstado()) {
 				
 				
-				if((gimnasios.get(entrenadorR).getEstado()).equals("Derrotado")) {System.out.println("Este gimnasio ya ha sido derrotado"); break;}
+				if((gimnasios.get(entrenadorR).getEstado()).equals("Derrotado")) {
+					System.out.println("Este gimnasio ya ha sido derrotado"); break;}
 				
 				
 				else if(gimnasios.get(entrenadorR).getEstado().equals("Sin derrotar")){
@@ -311,17 +340,7 @@ public class app {
 						}
 						System.out.println( z+1 +")Salir" );
 						opcion7 = sc.nextInt();
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+	
 						if( Estavivo(opcion7+1) == true && opcion7 != z+2 ) {
 							
 							
@@ -335,32 +354,16 @@ public class app {
 						System.out.println("Volviendo al menu");
 						continue;
 					default:
-						System.out.println("Lolazo");
+						System.out.println("Opcion invalida..");
+						opcion6 =0;
 
-					}
-						
+					}	
 						j++;
 						
 					}while(opcion6 != 3 || PokemonRes == 0);
 					
 				}
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			else if ( gimnasios.get(i).getEstado().equals("Sin derrotar")) {
 				System.out.println("Calmado Entrenador!!! No puedes retar a "+ gimnasios.get(entrenadorR).getLider() +  " sin haber derrotado a " + gimnasios.get(i).getLider() );
 			}
@@ -372,61 +375,45 @@ public class app {
 		
 			
 		}
-		}
-		public static boolean Estavivo( int z ){
-			Scanner sc = new Scanner(System.in);
-			try (Scanner lector1 = new Scanner(new File("src/Registros.txt"))){
-				String linea = lector1.nextLine();
-				while(lector1.hasNextLine()) {
-					 linea = lector1.nextLine() ;
-					System.out.println(linea);
-					String[] partes = linea.split(";");
-					String pokemon = partes[0];
-					String estavivo = partes[1];
-					if(pokemonsUsuario.get(z-2).getNombre().equals(pokemon)) {
-						if( estavivo.equals("Vivo")){
-							System.out.println("lol");
-							return true; 
-						}
-						
-						else if (estavivo.equals("Derrotado")){
-							return false;
-						}
-						
+	}
+	public static boolean Estavivo( int z ){
+		Scanner sc = new Scanner(System.in);
+		try (Scanner lector1 = new Scanner(new File("src/Registros.txt"))){
+			String linea = lector1.nextLine();
+			while(lector1.hasNextLine()) {
+				 linea = lector1.nextLine() ;
+				System.out.println(linea);
+				String[] partes = linea.split(";");
+				String pokemon = partes[0];
+				String estavivo = partes[1];
+				if(pokemonsUsuario.get(z-2).getNombre().equals(pokemon)) {
+					if( estavivo.equals("Vivo")){
+						System.out.println("lol");
+						return true; 
 					}
-			}
-				
-			}
-			
-			catch(Exception e) {
-				e.getMessage();
-			}
-			
-			
-			
-			
-			return false;
+					
+					else if (estavivo.equals("Derrotado")){
+						return false;
+					}
+					
+				}
 		}
+			
+		}
+		
+		catch(Exception e) {
+			e.getMessage();
+		}
+		
+		
+		
+		
+		return false;
+	}
 	
 			
 				
 		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -454,8 +441,14 @@ public class app {
 		System.out.println("1) Continuar.");
 		System.out.println("2) Nueva Partida.");
 		System.out.println("3) Salir.");
-		opcion1 = sc.nextInt();
 		
+		//Control error letras
+		try {
+			opcion1 = Integer.parseInt(sc.nextLine());
+			
+		}catch (NumberFormatException e) {
+			
+		}
 		
 		switch (opcion1) {
 		
@@ -492,43 +485,52 @@ public class app {
 				System.out.println("8) Guardar y Salir.");
 				System.out.print("Ingrese opcion:  ");
 				
-				opcion2 = sc.nextInt();
 				System.out.println(" ");
-			
+				//Control error letras
+				try {
+					opcion2 = Integer.parseInt(sc.nextLine());
+					
+				}catch (NumberFormatException e) {
+					
+				}
+				
 				switch (opcion2) {
 				
 				case 1:
 					//revisar equipo
-					mostrarInventario();						
+					mostrarInventario();
+					System.out.println(" ");
 					opcion2 = 0;
 					break;
 				case 2:
 					salirCapturar();
+					System.out.println(" ");
 					opcion2 = 0;
 				
 					break;
 				case 3:
-					System.out.println("1) Cambiar Pokemon");
-					System.out.println();
+					cambiarEquipo();
+					System.out.println(" ");
+					opcion2 = 0; 
 					break;
 					//cambiar pokemon
 				case 4:
 					int opcion4 = 0 ;
 					do {
 					mostrarGimnasios();
-					System.out.println("Que gimnasio desea retar?");
+					System.out.println("Que gimnasio deseas retar?");
 					opcion4=sc.nextInt();
-					retarGimnasio(opcion4,"jon",pokemonsUsuario);
+					retarGimnasio(opcion4,registros.get(0),pokemonsUsuario);
 					}while(opcion4 != (gimnasios.size())+1 );
 					
 					opcion2 = 0;
 					break;
-					//retar un gimnasio
 				case 5:
 					//desafiar alto mando
 				case 6:
 					curarPokemons();
 					System.out.println("Pokemons Curados....");
+					System.out.println(" ");
 					opcion2 = 0;
 					break;
 					//curar pokemon
@@ -544,12 +546,9 @@ public class app {
 					guardarRegistros(rutaRegistro);
 					
 					break;
-					//guardar y salir
-				case 9:
-					for (String b : registros) {
-						System.out.println(b);
-					
-					}					
+				default :
+					System.out.println("Opcion Invalida...");
+					break;
 					
 				}								
 			}while(opcion2 == 0);	
