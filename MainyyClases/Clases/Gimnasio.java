@@ -1,6 +1,10 @@
-package Taller;
+package Clases;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.FileReader;
+import java.io.File;
+import java.io.IOException;
 
 
 public class Gimnasio {
@@ -33,9 +37,10 @@ public class Gimnasio {
 	
 	
 	
+	
 
 	public ArrayList<Pokemon> getPokemonsGym() {
-		return pokemonsGym;
+		return pokemonsGym ;
 	}
 
 	public void setPokemonsGym(ArrayList<Pokemon> pokemonsGym) {
