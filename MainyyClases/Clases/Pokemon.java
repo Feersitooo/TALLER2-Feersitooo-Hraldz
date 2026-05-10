@@ -1,4 +1,4 @@
-package Taller;
+package Clases;
 
 public class Pokemon {
 
@@ -75,5 +75,9 @@ public class Pokemon {
 	public String toString() {
 		return "Pokemon [nombre=" + nombre + "]";
 	}
+	public int getsuma() {
+		int suma= getDefensa()+getAtaque()+getAtaqueEspecial()+getDefensaEspecial()+getVida()+getVelocidad();
+		return suma;
+	}
+	}
 
-}
