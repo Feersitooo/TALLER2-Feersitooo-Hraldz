@@ -76,8 +76,9 @@ public class Pokemon {
 		return "Pokemon [nombre=" + nombre + "]";
 	}
 	public int getsuma() {
-		int suma= getDefensa()+getAtaque()+getAtaqueEspecial()+getDefensaEspecial()+getVida()+getVelocidad();
-		return suma;
+		int a = getDefensa()+getAtaque()+getAtaqueEspecial()+getDefensaEspecial()+getVida()+getVelocidad();
+		return a;
 	}
-	}
+	
 
+}
