@@ -40,7 +40,7 @@ public class Gimnasio {
 	
 
 	public ArrayList<Pokemon> getPokemonsGym() {
-		return pokemonsGym ;
+		return pokemonsGym;
 	}
 
 	public void setPokemonsGym(ArrayList<Pokemon> pokemonsGym) {
@@ -51,9 +51,6 @@ public class Gimnasio {
 		return lider;
 	}
 
-	public void setLider(String lider) {
-		this.lider = lider;
-	}
 
 	public String getEstado() {
 		return estado;
