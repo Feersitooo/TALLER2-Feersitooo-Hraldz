@@ -2,7 +2,7 @@ El proyecto consta sobre un menu interactivo tratando de acercar la jugabilidad 
 de distintos tipos y caracteristicas; en nuestro caso en particular no llegamos a lograr hacer que los pokemons peelen solo logrando conllevar que se acerquen a esto sin poder comparar
 
 fernando herrera 220575500 Feersitooo
-joan zambra 220575500 Hraldz
+joan zambra 218869750 Hraldz
 
 El proyecto consta con 2 paquetes main y clases
 constando con 2 clases en el paquete y solo 1 main en este;
