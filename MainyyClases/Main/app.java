@@ -1,18 +1,16 @@
 package Main;
-
+//JOAN PHILLIPE ZAMBRA SALINAS 218869750 ICCI
+//FERNANDO ANTONIO HERRERA CASTILLO 220575500 ICCI
 import java.util.Scanner;
-
-
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import Clases.*;
+
 
 public class app {
 	public static ArrayList <String> registros = new ArrayList<>();
@@ -21,6 +19,7 @@ public class app {
 	public static ArrayList<Pokemon> pFiltrados = new ArrayList<>();
 	public static ArrayList<Pokemon> pokemonsUsuario = new ArrayList<>();
 	public static ArrayList<Gimnasio> gimnasios = new ArrayList<>();
+	public static ArrayList<Pokemon> pokemonesPelear = new ArrayList<>(); 
 	
 	public static void cargarArchivoVacio() {
 		
@@ -182,7 +181,7 @@ public class app {
 	
 	public static void cargarGimnasios(String ruta) {
 		//mostrar los gimnasios
-		
+		 gimnasios.clear();
 		try (Scanner lector3 = new Scanner(new File(ruta))){
 			int contgym=0;
 			
@@ -304,6 +303,8 @@ public class app {
 					System.out.println();
 					int opcion6 ;
 					int PokemonRes;
+					int opcion7=0;
+					LlenarListaPokemon(pokemonsUsuario);
 					do { 
 						opcion6 = 0;
 						 PokemonRes = gimnasios.get(entrenadorR).getPokemonsGym().size();								
@@ -314,37 +315,46 @@ public class app {
 						 System.out.println();
 						 break;}	 
 						 
-						 
-						 
 					System.out.println(gimnasios.get(entrenadorR).getLider() + " Saca a " + gimnasios.get(entrenadorR).getPokemonsGym().get(j).getNombre());
 						
-					System.out.println(apodoNuevo + " Saca a " + pokemons.get(j).getNombre());
+					System.out.println(apodoNuevo + " Saca a " + pokemonsUsuario.get(0).getNombre());
 					System.out.println();
 					System.out.println("Que deseas hacer?\r\n" + "1) Atacar\r\n" + "2) Cambiar de pokemon\r\n" + "3) Rendirse\r\n" + "Ingrese Opcion: ");
 							opcion6 = sc.nextInt();
 					switch(opcion6) {
 					case 1:
-						System.out.println();
+						Double stattotalDef = (double) gimnasios.get(entrenadorR).getPokemonsGym().get(j).getsuma() ;
+						
+						
+						
 						continue;
 					case 2:
 						System.out.println("A que pokemon deseas cambiar ?");
 						int z=0;
-						int opcion7 = 0;
+						
 						
 						do {
-						for( z = 0 ; z < pokemonsUsuario.size() && z < 6    ;z++) {
+						for( z = 0 ; z < pokemonesPelear.size() ;z++) {
 							
 							
-							System.out.println( z+1 + ")" +pokemonsUsuario.get(z).getNombre());
+							System.out.println( z+1 + ")" + pokemonesPelear.get(z).getNombre());
 							
 						}
 						System.out.println( z+1 +")Salir" );
 						opcion7 = sc.nextInt();
 	
-						if( Estavivo(opcion7+1) == true && opcion7 != z+2 ) {
-							
-							
+						if( Estavivo(opcion7+1) == true && opcion7 != z+1 ) {
+						
 						System.out.println("Cambiando a " + pokemonsUsuario.get(opcion7-1).getNombre()  );	
+						opcion7 = opcion7- 1;
+						Collections.swap(pokemonsUsuario, 0 ,opcion7);
+						
+						
+						break;
+						}
+						else {
+							System.out.println("Este pokemon ha sido derrotado");
+							break;
 						}
 						}while(opcion7 != z+1);
 						
@@ -365,7 +375,8 @@ public class app {
 				}
 			}
 			else if ( gimnasios.get(i).getEstado().equals("Sin derrotar")) {
-				System.out.println("Calmado Entrenador!!! No puedes retar a "+ gimnasios.get(entrenadorR).getLider() +  " sin haber derrotado a " + gimnasios.get(i).getLider() );
+				System.out.println("Calmado Entrenador!!! No puedes retar a " + gimnasios.get(entrenadorR).getLider() + " sin haber derrotado a los anteriorres" );
+				break;
 			}
 			else if ( gimnasios.get(i).getEstado().equals("Derrotado")) {
 				System.out.println(gimnasios.get(i).getLider() + " Derrotado");
@@ -382,13 +393,13 @@ public class app {
 			String linea = lector1.nextLine();
 			while(lector1.hasNextLine()) {
 				 linea = lector1.nextLine() ;
-				System.out.println(linea);
+				
 				String[] partes = linea.split(";");
 				String pokemon = partes[0];
 				String estavivo = partes[1];
-				if(pokemonsUsuario.get(z-2).getNombre().equals(pokemon)) {
+				if(pokemonesPelear.get(z-2).getNombre().equals(pokemon)) {
 					if( estavivo.equals("Vivo")){
-						System.out.println("lol");
+						
 						return true; 
 					}
 					
@@ -412,8 +423,13 @@ public class app {
 	}
 	
 			
-				
+	public static void  LlenarListaPokemon(ArrayList<Pokemon> pokemonsUsuario) {
+		for(int i = 0 ; i < 5 && i < pokemonsUsuario.size() ; i++) {
+			pokemonesPelear.add(pokemonsUsuario.get(i));
+		}
 		
+	}
+
 	
 	
 	
@@ -434,7 +450,7 @@ public class app {
 		cargarArchivoVacio();
 		crearHabitads(rutaHabitads);
 		cargarPokemonsUsuario();
-		cargarGimnasios(rutaGimnasios);
+		
 		
 		int opcion1 = 0;
 		do{	
@@ -472,7 +488,7 @@ public class app {
 			}
 
 			do {
-								
+						
 				System.out.println(registros.get(0) + ", que deseas hacer ?");
 				System.out.println(" ");
 				System.out.println("1) Revisar equipo.");
@@ -515,12 +531,17 @@ public class app {
 					break;
 					//cambiar pokemon
 				case 4:
+					cargarGimnasios(rutaGimnasios);
 					int opcion4 = 0 ;
 					do {
+						String linea =registros.get(0);
+						String[] partes = linea.split(";");
+						String nombre = partes[0];
 					mostrarGimnasios();
+					
 					System.out.println("Que gimnasio deseas retar?");
 					opcion4=sc.nextInt();
-					retarGimnasio(opcion4,registros.get(0),pokemonsUsuario);
+					retarGimnasio(opcion4,nombre,pokemonsUsuario);
 					}while(opcion4 != (gimnasios.size())+1 );
 					
 					opcion2 = 0;
@@ -546,6 +567,7 @@ public class app {
 					guardarRegistros(rutaRegistro);
 					
 					break;
+				case 9 :
 				default :
 					System.out.println("Opcion Invalida...");
 					break;
