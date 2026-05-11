@@ -320,7 +320,11 @@ public class app {
 					System.out.println(apodoNuevo + " Saca a " + pokemonsUsuario.get(0).getNombre());
 					System.out.println();
 					System.out.println("Que deseas hacer?\r\n" + "1) Atacar\r\n" + "2) Cambiar de pokemon\r\n" + "3) Rendirse\r\n" + "Ingrese Opcion: ");
-							opcion6 = sc.nextInt();
+					try {
+						opcion6 = Integer.parseInt(sc.nextLine());
+					}catch(NumberFormatException e) {
+						
+					}
 					switch(opcion6) {
 					case 1:
 						Double stattotalDef = (double) gimnasios.get(entrenadorR).getPokemonsGym().get(j).getsuma() ;
@@ -341,7 +345,11 @@ public class app {
 							
 						}
 						System.out.println( z+1 +")Salir" );
-						opcion7 = sc.nextInt();
+						try {
+						opcion7 = Integer.parseInt(sc.nextLine());
+						}catch(NumberFormatException e) {
+							System.out.println("Ingresa un numero valido");
+						}
 	
 						if( Estavivo(opcion7+1) == true && opcion7 != z+1 ) {
 						
@@ -463,7 +471,7 @@ public class app {
 			opcion1 = Integer.parseInt(sc.nextLine());
 			
 		}catch (NumberFormatException e) {
-			
+			System.out.println("ingrese un numero valido");
 		}
 		
 		switch (opcion1) {
@@ -540,13 +548,18 @@ public class app {
 					mostrarGimnasios();
 					
 					System.out.println("Que gimnasio deseas retar?");
-					opcion4=sc.nextInt();
+					try {
+						opcion4 = Integer.parseInt(sc.nextLine());
+					}catch(NumberFormatException e) {
+						System.out.println("Ingrese un numero valido");
+					}
 					retarGimnasio(opcion4,nombre,pokemonsUsuario);
 					}while(opcion4 != (gimnasios.size())+1 );
 					
 					opcion2 = 0;
 					break;
 				case 5:
+					break;
 					//desafiar alto mando
 				case 6:
 					curarPokemons();
@@ -584,9 +597,10 @@ public class app {
 		default:
 			System.out.println("Opcion invalida....");
 			System.out.println(" ");
+			continue;
 			
 		}
-		}while (opcion1 == 0);		
+		}while (opcion1 != 3);		
 			
 			
 			
